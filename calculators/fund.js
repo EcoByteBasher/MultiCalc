@@ -1,127 +1,101 @@
 // calculators/fund.js
 
 function bindFund() {
-  const byId = id => document.getElementById(id);
-  byId('calcBtn').addEventListener('click', calculateFund);
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Enter') calculateFund();
-  });
+  document.getElementById("calcBtn").addEventListener("click", calculateFund);
 }
 
+let fundChart = null;
+
 function calculateFund() {
-  const balance = parseFloat(document.getElementById('fund-balance').value) || 0;
-  const growth = (parseFloat(document.getElementById('fund-growth').value) || 0) / 100;
-  const variance = (parseFloat(document.getElementById('fund-variance').value) || 0) / 100;
-  const withdrawal = parseFloat(document.getElementById('fund-withdrawal').value) || 0;
-  const customMonths = parseInt(document.getElementById('fund-months').value) || 600;
+  const balance = parseFloat(document.getElementById("fund-balance").value);
+  const growth = parseFloat(document.getElementById("fund-growth").value) / 100;
+  const variance = parseFloat(document.getElementById("fund-variance").value) / 100;
+  const withdrawal = parseFloat(document.getElementById("fund-withdrawal").value);
+  const months = parseInt(document.getElementById("fund-months").value);
 
-  const resultsDiv = document.getElementById('fund-results');
-  const ctx = document.getElementById('fundChart').getContext('2d');
+  const scenarios = [
+    { label: "Low", rate: growth - variance, color: "#d62828" },
+    { label: "Base", rate: growth, color: "#0d6efd" },
+    { label: "High", rate: growth + variance, color: "#2ca02c" },
+  ];
 
-  // helper to simulate depletion
-  function simulate(rate) {
-    let months = 0, bal = balance, totalInterest = 0, totalContrib = 0;
-    while (bal > 0 && months < customMonths) {
-      const interest = bal * (rate / 12);
-      bal += interest;
-      totalInterest += interest;
-      bal -= withdrawal;
-      totalContrib += withdrawal;
-      months++;
-    }
-    return { months, bal: Math.max(bal, 0), totalInterest, totalContrib };
-  }
+  const datasets = [];
+  let resultsHtml = `<h3>Results</h3>`;
 
-  const low = simulate(growth - variance);
-  const base = simulate(growth);
-  const high = simulate(growth + variance);
-
-  function formatYM(months) {
-    if (months >= customMonths) return "Not depleted";
-    const y = Math.floor(months / 12);
-    const m = months % 12;
-    return `${y}y ${m}m`;
-  }
-
-  resultsDiv.innerHTML = `
-    <div class="results">
-      <span>Time to depletion (Low):</span><span class="val red">${formatYM(low.months)}</span>
-      <span>Time to depletion (Base):</span><span class="val blue">${formatYM(base.months)}</span>
-      <span>Time to depletion (High):</span><span class="val green">${formatYM(high.months)}</span>
-      <span>Total growth (Base):</span><span class="val blue">£${base.totalInterest.toFixed(2)}</span>
-      <span>Funds remaining (Base):</span><span class="val blue">£${base.bal.toFixed(2)}</span>
-    </div>
-  `;
-
-  // Chart.js rendering
-  if (window.fundChart) {
-    window.fundChart.destroy();
-  }
-
-  function trajectory(rate) {
+  scenarios.forEach(s => {
     let bal = balance;
-    const points = [bal];
-    for (let m = 0; m < customMonths; m++) {
-      bal += bal * (rate / 12);
-      bal -= withdrawal;
-      points.push(Math.max(bal, 0));
-      if (bal <= 0) break;
-    }
-    return points;
-  }
+    const data = [];
+    let depletedAt = null;
 
-  window.fundChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: Array.from({ length: customMonths + 1 }, (_, i) => i),
-      datasets: [
-        {
-          label: 'Low',
-          data: trajectory(growth - variance),
-          borderColor: '#d62828',
-          borderWidth: 1.5,
-          fill: false,
-          pointRadius: 0
-        },
-        {
-          label: 'Base',
-          data: trajectory(growth),
-          borderColor: '#0000CD',
-          borderWidth: 1.5,
-          fill: false,
-          pointRadius: 0
-        },
-        {
-          label: 'High',
-          data: trajectory(growth + variance),
-          borderColor: '#00aa00',
-          borderWidth: 1.5,
-          fill: false,
-          pointRadius: 0
-        }
-      ]
-    },
+    for (let m = 1; m <= months; m++) {
+      bal *= 1 + s.rate / 12;
+      bal -= withdrawal;
+      data.push({ x: m, y: bal });
+
+      if (bal <= 0 && !depletedAt) {
+        depletedAt = m;
+        break;
+      }
+    }
+
+    datasets.push({
+      label: s.label,
+      data: data,
+      borderColor: s.color,
+      borderWidth: 1.5,
+      pointRadius: 0,
+      fill: false,
+      tension: 0.1
+    });
+
+    if (depletedAt) {
+      const years = Math.floor(depletedAt / 12);
+      const remMonths = depletedAt % 12;
+      resultsHtml += `<p style="color:${s.color}">${s.label}: Funds depleted after ${years} years ${remMonths} months</p>`;
+    } else {
+      const finalBal = data[data.length - 1].y.toFixed(2);
+      resultsHtml += `<p style="color:${s.color}">${s.label}: Funds remain after ${months} months (£${finalBal})</p>`;
+    }
+  });
+
+  document.getElementById("fund-results").innerHTML = resultsHtml;
+
+  const ctx = document.getElementById("fundChart").getContext("2d");
+  if (fundChart) {
+    fundChart.destroy();
+  }
+  fundChart = new Chart(ctx, {
+    type: "line",
+    data: { datasets },
     options: {
       responsive: true,
-      maintainAspectRatio: false,
+      interaction: {
+        mode: "nearest",
+        intersect: false
+      },
       plugins: {
-        legend: { display: false },
         tooltip: {
-          mode: 'index',
-          intersect: false,
+          enabled: true,
           callbacks: {
-            label: ctx => `£${ctx.parsed.y.toFixed(2)}`
+            label: function(context) {
+              return `£${context.parsed.y.toFixed(2)}`;
+            }
           }
-        }
+        },
+        legend: { display: true }
       },
       scales: {
         x: {
-          title: { display: true, text: 'Months' }
+          type: "linear",
+          title: { display: true, text: "Months" }
         },
         y: {
-          title: { display: true, text: 'Balance (£)' }
+          title: { display: true, text: "Balance (£)" },
+          beginAtZero: true
         }
-      }
+      },
+      // Disable clicks/drags from triggering redraws
+      events: ["mousemove", "mouseout", "mouseenter", "mouseleave", "touchstart", "touchmove"]
     }
   });
 }
