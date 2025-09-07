@@ -1,0 +1,68 @@
+<div class="card" role="application" aria-label="Target Fund Calculator">
+  <div class="header"><h1>Target Fund Calculator v1.0</h1></div>
+  <div class="body">
+
+    <div class="section">
+      <h2>Inputs</h2>
+
+      <div class="row">
+        <label class="main" for="start">Starting balance</label>
+        <input class="num-wide" type="number" id="start" min="0" step="1" value="0" />
+      </div>
+
+      <div class="row">
+        <label class="main" for="monthly">Monthly contribution</label>
+        <input class="num-wide" type="number" id="monthly" min="0" step="1" value="200" />
+      </div>
+
+      <div class="row">
+        <label class="main" for="target">Target amount</label>
+        <input class="num-wide" type="number" id="target" min="1" step="1" value="10000" />
+      </div>
+
+      <div class="row">
+        <label class="main" for="rate">Annual interest rate (%)</label>
+        <input class="num-wide" type="number" id="rate" min="0" step="0.01" value="5.00" />
+      </div>
+
+      <div class="row">
+        <label class="main">Interest calculated</label>
+        <fieldset class="radio-group">
+          <label class="radio">
+            <input type="radio" name="calcType" value="monthly" checked />Monthly
+          </label>
+          <label class="radio">
+            <input type="radio" name="calcType" value="annually" />Annually
+          </label>
+        </fieldset>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="calcBtn">Calculate</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Results</h2>
+
+      <div class="results">
+        <div>Time to reach target</div>
+        <div class="val blue" id="timeToTarget">—</div>
+
+        <div>Total contributions</div>
+        <div class="val green" id="totalContrib">—</div>
+
+        <div>Interest / growth</div>
+        <div class="val red" id="growth">—</div>
+
+        <div>Final balance</div>
+        <div class="val blue" id="finalBalance">—</div>
+
+        <div>Breakdown</div>
+        <div class="val" id="breakdown">—</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

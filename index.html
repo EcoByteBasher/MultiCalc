@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>All Calculators</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Top navigation -->
+  <div id="top-row">
+    <div id="button-container">
+      <button onclick="loadCalculator('mortgage')">Mortgage</button>
+      <button onclick="loadCalculator('savings')">Savings</button>
+      <button onclick="loadCalculator('target')">Target Fund</button>
+      <button onclick="loadCalculator('investment')">Investment</button>
+      <button onclick="loadCalculator('fund')">Fund depletion</button>
+      <button onclick="loadCalculator('credit')">Credit Card</button>
+      <!-- Add more calculators here -->
+    </div>
+    <div id="instructions">Select a calculator from the menu above</div>
+  </div>
+
+  <!-- Calculator injection point -->
+  <div id="content"></div>
+
+  <!-- Calculator scripts -->
+  <script src="calculators/mortgage.js"></script>
+  <script src="calculators/savings.js"></script>  
+  <script src="calculators/target.js"></script>
+  <script src="calculators/investment.js"></script>
+  <script src="calculators/fund.js"></script>
+  <script src="calculators/credit.js"></script>
+  <script>
+    async function loadCalculator(name) {
+      const res = await fetch(`calculators/${name}.html`);
+      const html = await res.text();
+      const container = document.getElementById('content');
+      container.innerHTML = html;
+
+      const card = container.querySelector('.card'); // scope root
+      if (name === 'mortgage') bindMortgage(card);
+      if (name === 'savings') bindSavings(card);
+      if (name === 'target') bindTarget(card);
+      if (name === 'investment') bindInvestment(card);
+      if (name === 'fund') bindFund(card);
+      if (name === 'credit') bindCredit();
+    }
+
+    // Load default calculator
+    loadCalculator('mortgage');
+  </script>
+</body>
+</html>
+

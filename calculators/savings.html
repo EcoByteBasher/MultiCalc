@@ -1,0 +1,57 @@
+<div class="card" role="application" aria-label="Savings Calculator">
+  <div class="header"><h1>Savings Calculator v1.0</h1></div>
+  <div class="body">
+
+    <div class="section">
+      <h2>Inputs</h2>
+
+      <div class="row">
+        <label class="main" for="savings-startBalance">Starting balance</label>
+        <input class="num-wide" type="number" id="savings-startBalance" value="1000" />
+      </div>
+
+      <div class="row">
+        <label class="main" for="savings-monthlyPayment">Monthly payment</label>
+        <input class="num-wide" type="number" id="savings-monthlyPayment" value="100" />
+      </div>
+
+      <div class="row">
+        <label class="main">Period</label>
+        <div class="inline">
+          <input class="num-3" type="number" id="savings-years" value="1" />
+          <span class="suffix">Years</span>
+          <input class="num-2" type="number" id="savings-months" value="0" />
+          <span class="suffix">Months</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="main">Growth rate</label>
+        <input class="num-2" type="number" id="savings-growthRate" value="5" step="0.01" />%
+        <fieldset class="radio-group">
+          <label class="radio"><input type="radio" name="savings-rateType" value="APR" checked />APR</label>
+          <label class="radio"><input type="radio" name="savings-rateType" value="AER" />AER</label>
+        </fieldset>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="savings-calcBtn">Calculate</button>
+      </div>
+
+    </div>
+
+    <div class="section">
+      <h2>Results</h2>
+      <div class="row">
+        <label class="main">Total saved</label>
+        <input class="num-wide" type="text" id="savings-totalSaved" readonly />
+      </div>
+      <div class="row">
+        <label class="main">Total interest earned</label>
+        <input class="num-wide" type="text" id="savings-totalInterest" readonly />
+      </div>
+    </div>
+
+  </div>
+</div>
+

@@ -1,0 +1,229 @@
+:root {
+  --accent: #0d6efd;
+  --accent-dark: #0a58ca;
+  --ink: #0b132b;
+  --muted: #6c757d;
+  --card: #ffffff;
+  --panel: #f5f7fb;
+  --ring: #dbe1f0;
+  --red: #d62828;
+  --green: #00aa00;
+  --blue: #0000CD;
+}
+
+/* Page layout */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--ink);
+  background: linear-gradient(135deg, #031b4e, #1b4e9b);
+}
+
+/* Main container for nav + calculators */
+#main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* --- Top navigation --- */
+#top-row {
+  display: flex;
+  flex-direction: column; /* stack buttons above instructions */
+  align-items: center;
+  gap: 10px;
+  margin: 40px 0 20px 0; /* extra top margin */
+  width: 100%;
+}
+
+/* Button container: evenly spaced, full panel width */
+#button-container {
+  display: flex;
+  justify-content: space-between;  /* spread buttons evenly */
+  width: min(720px, 96vw);         /* match card width */
+  flex-wrap: nowrap;                /* single row on desktop */
+  margin: 0 auto;
+}
+
+#button-container button {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  padding: 16px 0;                 /* tall buttons */
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  flex: 1;                          /* equal width */
+  margin: 0 4px;                    /* small gap */
+  transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+
+#button-container button:first-child { margin-left: 0; }
+#button-container button:last-child  { margin-right: 0; }
+
+/* Enhanced hover effect */
+#button-container button:hover {
+  background: var(--accent-dark);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  transform: translateY(-2px);
+}
+
+#button-container button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+#instructions {
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* --- Card container --- */
+.card {
+  width: min(720px, 96vw);
+  max-width: 720px;
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.25);
+  overflow: hidden;
+  margin: 0 auto 20px auto; /* center horizontally */
+}
+
+/* Header */
+.header {
+  padding: 18px 22px;
+  background: linear-gradient(180deg, #e9f3ff, #fff);
+  border-bottom: 1px solid var(--ring);
+}
+.header h1 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--accent);
+  letter-spacing: .2px;
+}
+
+/* Body */
+.body { padding: 20px 22px; }
+
+/* Sections / Panels */
+.section {
+  background: var(--panel);
+  border: 1px solid var(--ring);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+.section h2 {
+  margin: 0 0 10px 0;
+  color: #0b3b8a;
+  font-size: 1rem;
+  letter-spacing: .2px;
+}
+
+/* Rows & form layout */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+.row label.main {
+  width: 160px;
+  min-width: 160px;
+  font-weight: 600;
+}
+.inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.suffix {
+  color: var(--muted);
+  font-size: .95rem;
+  margin-right: 10px;
+}
+
+/* Inputs */
+input[type="number"], input[type="text"] {
+  padding: 8px 10px;
+  border: 1px solid #c7cfdd;
+  border-radius: 8px;
+  background: #fff;
+  outline: none;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+input[type="number"]:focus, input[type="text"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(13,110,253,.15);
+}
+input[readonly] { background: #eef3fb; color: #223; }
+.num-3 { width: 6ch; text-align: right; }
+.num-2 { width: 4ch; text-align: right; }
+.num-wide { width: 80px; text-align: right; }
+
+/* Radios */
+fieldset { border: 0; padding: 0; margin: 0; }
+.radio-group { display: flex; gap: 18px; flex-wrap: wrap; }
+.radio {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 8px;
+  border: 1px solid #e4e8f5;
+  border-radius: 8px;
+  background: #fff;
+}
+
+/* Buttons inside calculators */
+.btn {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s ease, transform .02s ease;
+}
+.btn:hover { background: var(--accent-dark); }
+.btn:active { transform: translateY(1px); }
+
+/* Results grid */
+.results {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 14px;
+  align-items: center;
+}
+.results .val {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.val.red { color: var(--red); }
+.val.green { color: var(--green); }
+.val.blue { color: var(--blue); }
+
+.help {
+  color: var(--muted);
+  font-size: .9rem;
+  margin-top: 8px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .row { flex-direction: column; align-items: flex-start; }
+  .row label.main { width: auto; min-width: 0; margin-bottom: 4px; }
+  .inline { gap: 4px; }
+  .num-wide { width: 30%; }
+  #button-container { flex-wrap: wrap; justify-content: center; }
+}
+

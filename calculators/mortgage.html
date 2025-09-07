@@ -1,0 +1,98 @@
+<div class="card" role="application" aria-label="Mortgage Calculator">
+  <div class="header"><h1>Mortgage Calculator v1.0</h1></div>
+  <div class="body">
+
+    <div class="section">
+      <h2>Inputs</h2>
+
+      <div class="row">
+        <label class="main" for="mortgage-amount">Amount borrowed</label>
+        <input class="num-wide" type="number" id="mortgage-amount" min="1" step="1" inputmode="numeric" value="100000"/>
+      </div>
+
+      <div class="row">
+        <label class="main" for="mortgage-rate">Interest rate (%)</label>
+        <input class="num-wide" type="number" id="mortgage-rate" min="0" step="0.01" value="5.00" />
+      </div>
+
+      <div class="row">
+        <label class="main">Term</label>
+        <div class="inline">
+          <input class="num-3" type="number" id="mortgage-years" min="1" step="1" value="25" />
+          <span class="suffix">Years</span>
+          <input class="num-2" type="number" id="mortgage-months" min="0" max="11" step="1" value="0" />
+          <span class="suffix">Months</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="main">Type of mortgage</label>
+        <fieldset class="radio-group">
+          <label class="radio"><input type="radio" id="mortgage-repayment" name="mortgageType" value="repayment" checked />Repayment</label>
+          <label class="radio"><input type="radio" id="mortgage-interestOnly" name="mortgageType" value="interestOnly" />Interest-only</label>
+        </fieldset>
+      </div>
+
+      <div class="row">
+        <label class="main">Interest calculated</label>
+        <fieldset class="radio-group">
+          <label class="radio"><input type="radio" id="mortgage-monthly" name="calcType" value="monthly" checked />Monthly</label>
+          <label class="radio"><input type="radio" id="mortgage-annually" name="calcType" value="annually" />Annually</label>
+        </fieldset>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="mortgage-calcBtn">Calculate</button>
+      </div>
+
+      <div class="row">
+        <label class="main" for="mortgage-payment">Monthly payment</label>
+        <input class="num-wide" type="text" id="mortgage-payment" readonly />
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Effect of overpayment</h2>
+
+      <div class="row">
+        <label class="main" for="mortgage-oneOff">One-off</label>
+        <input class="num-wide" type="number" id="mortgage-oneOff" min="0" step="1" inputmode="numeric" />
+      </div>
+
+      <div class="row">
+        <label class="main" for="mortgage-monthlyOver">Monthly</label>
+        <input class="num-wide" type="number" id="mortgage-monthlyOver" min="0" step="1" inputmode="numeric" />
+      </div>
+
+      <div class="row">
+        <label class="main">New term</label>
+        <div class="inline">
+          <input class="num-3" type="text" id="mortgage-newYears" readonly value="25" />
+          <span class="suffix">Years</span>
+          <input class="num-2" type="text" id="mortgage-newMonths" readonly value="0" />
+          <span class="suffix">Months</span>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:14px">
+        <div class="results" style="width:100%">
+          <div>Total interest (original schedule)</div>
+          <div class="val red" id="mortgage-tiBase">—</div>
+
+          <div>Total interest (with overpayments)</div>
+          <div class="val red" id="mortgage-tiWith">—</div>
+
+          <div>Interest saved</div>
+          <div class="val green" id="mortgage-tiSaved">—</div>
+
+          <div id="mortgage-balloonRow" style="display:none;">Principal remaining</div>
+          <div class="val blue" id="mortgage-balloonVal" style="display:none;">—</div>
+        </div>
+      </div>
+
+      <div class="help">Note: “Interest-only” totals exclude any final principal/balloon repayment.</div>
+    </div>
+
+  </div>
+</div>
+
