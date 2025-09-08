@@ -12,8 +12,13 @@ function calculateFund() {
   const variance = parseFloat(document.getElementById("fund-variance").value) / 100;
   const withdrawal = parseFloat(document.getElementById("fund-withdrawal").value);
 
-  const years = parseInt(document.getElementById("fund-years").value) || 0;
-  const months = parseInt(document.getElementById("fund-months").value) || 0;
+  let years = parseInt(document.getElementById("fund-years").value) || 0;
+  let months = parseInt(document.getElementById("fund-months").value) || 0;
+
+  // clamp months safely
+  if (months < 0) months = 0;
+  if (months > 11) months = 11;
+
   const totalMonths = years * 12 + months;
 
   const scenarios = [
@@ -28,7 +33,7 @@ function calculateFund() {
   scenarios.forEach(s => {
     let bal = balance;
     const data = [];
-    const monthlyRate = Math.pow(1 + s.rate, 1/12) - 1;
+    const monthlyRate = Math.pow(1 + s.rate, 1 / 12) - 1;
     let depletedAt = null;
 
     for (let m = 1; m <= totalMonths; m++) {
