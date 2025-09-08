@@ -7,22 +7,22 @@
     <!-- Inputs -->
     <div class="section">
       <h2>Inputs</h2>
-      <div class="row">
+      <div class="row inline">
         <label class="main">Starting balance</label>
         <input type="number" id="invStart" class="num-wide" value="10000">
       </div>
-      <div class="row">
+      <div class="row inline">
         <label class="main">Monthly contribution</label>
-        <input type="number" id="invMonthly" class="num-wide" value="200">
+        <input type="number" id="invMonthly" class="num-narrow" value="200">
       </div>
-      <div class="row">
+      <div class="row inline">
         <label class="main">Period</label>
         <div class="inline">
           <input type="number" id="invYears" class="num-2" value="10"><span class="suffix">Years</span>
           <input type="number" id="invMonths" class="num-2" value="0"><span class="suffix">Months</span>
         </div>
       </div>
-      <div class="row">
+      <div class="row inline">
         <label class="main">Growth rate</label>
         <input type="number" id="invRate" class="num-3" value="5"><span class="suffix">%</span>
         <fieldset class="radio-group">
@@ -30,7 +30,7 @@
           <label class="radio"><input type="radio" name="invRateType" value="AER">AER</label>
         </fieldset>
       </div>
-      <div class="row">
+      <div class="row inline">
         <label class="main">Variance</label>
         <input type="number" id="invVariance" class="num-3" value="2"><span class="suffix">%</span>
       </div>

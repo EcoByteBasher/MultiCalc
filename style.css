@@ -220,10 +220,11 @@ fieldset { border: 0; padding: 0; margin: 0; }
 
 /* Narrow number inputs for % fields */
 /* Existing input sizes already present */
+.num-wide   { width: 8ch; text-align: right; } /* starting balances */
+.num-normal { width: 6ch; text-align: right;}
 .num-narrow { width: 5ch; text-align: right; } /* percentages */
-.num-wide   { width: 8ch; text-align: right; }
-.num-small { width: 4ch; text-align: right; } /* years */
-.num-tiny  { width: 3ch; text-align: right; } /* months */
+.num-small  { width: 4ch; text-align: right; } /* years */
+.num-tiny   { width: 3ch; text-align: right; } /* months */
 
 /* Remove number spinners */
 input[type=number]::-webkit-inner-spin-button,
