@@ -11,7 +11,9 @@ function calculateFund() {
   const growth = parseFloat(document.getElementById("fund-growth").value) / 100;
   const variance = parseFloat(document.getElementById("fund-variance").value) / 100;
   const withdrawal = parseFloat(document.getElementById("fund-withdrawal").value);
-  const months = parseInt(document.getElementById("fund-months").value);
+  const years = parseInt(document.getElementById("fund-years").value) || 0;
+  const extraMonths = parseInt(document.getElementById("fund-extra-months").value) || 0;
+  const months = years * 12 + extraMonths;
 
   const scenarios = [
     { label: "Low", rate: growth - variance, color: "#d62828" },
@@ -20,15 +22,16 @@ function calculateFund() {
   ];
 
   const datasets = [];
-  let resultsHtml = `<h3>Results</h3>`;
+  let resultsHtml = "";
 
   scenarios.forEach(s => {
     let bal = balance;
     const data = [];
+    const monthlyRate = Math.pow(1 + s.rate, 1/12) - 1;
     let depletedAt = null;
 
     for (let m = 1; m <= months; m++) {
-      bal *= 1 + s.rate / 12;
+      bal *= 1 + monthlyRate;
       bal -= withdrawal;
       data.push({ x: m, y: bal });
 
@@ -51,10 +54,14 @@ function calculateFund() {
     if (depletedAt) {
       const years = Math.floor(depletedAt / 12);
       const remMonths = depletedAt % 12;
-      resultsHtml += `<p style="color:${s.color}">${s.label}: Funds depleted after ${years} years ${remMonths} months</p>`;
+      resultsHtml += `<div style="color:${s.color}; text-align:left;">
+        ${s.label} (${(s.rate*100).toFixed(1)}%): Funds depleted after ${years} years ${remMonths} months
+      </div>`;
     } else {
       const finalBal = data[data.length - 1].y.toFixed(2);
-      resultsHtml += `<p style="color:${s.color}">${s.label}: Funds remain after ${months} months (£${finalBal})</p>`;
+      resultsHtml += `<div style="color:${s.color}; text-align:left;">
+        ${s.label} (${(s.rate*100).toFixed(1)}%): Funds remain after ${months} months (£${finalBal})
+      </div>`;
     }
   });
 
@@ -70,7 +77,7 @@ function calculateFund() {
     options: {
       responsive: true,
       interaction: {
-        mode: "nearest",
+        mode: "index",
         intersect: false
       },
       plugins: {
@@ -78,7 +85,7 @@ function calculateFund() {
           enabled: true,
           callbacks: {
             label: function(context) {
-              return `£${context.parsed.y.toFixed(2)}`;
+              return `${context.dataset.label}: £${context.parsed.y.toFixed(2)}`;
             }
           }
         },
@@ -93,9 +100,7 @@ function calculateFund() {
           title: { display: true, text: "Balance (£)" },
           beginAtZero: true
         }
-      },
-      // Disable clicks/drags from triggering redraws
-      events: ["mousemove", "mouseout", "mouseenter", "mouseleave", "touchstart", "touchmove"]
+      }
     }
   });
 }

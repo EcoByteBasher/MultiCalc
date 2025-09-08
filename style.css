@@ -200,6 +200,26 @@ fieldset { border: 0; padding: 0; margin: 0; }
   margin-top: 12px;
 }
 
+/* Narrow number inputs for % fields */
+.num-narrow {
+  width: 5ch;
+  text-align: right;
+}
+
+/* Adjust results to align left instead of grid */
+#fund-results {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+  align-items: flex-start; /* Forces to left edge */
+}
+#fund-results div {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   #button-container {
