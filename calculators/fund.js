@@ -19,7 +19,7 @@ function calculateFund() {
   if (months < 0) months = 0;
   if (months > 11) months = 11;
 
-  const totalMonths = years * 12 + months;
+  const totalMonths = Math.min(years * 12 + months, 6000); // cap at 500 years
 
   const scenarios = [
     { label: "Low", rate: growth - variance, color: "#d62828" },

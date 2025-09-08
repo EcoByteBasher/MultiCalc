@@ -264,8 +264,27 @@ input[type=number] {
   #button-container {
     grid-template-columns: repeat(2, 1fr);
   }
-  .row { flex-direction: column; align-items: flex-start; }
-  .row label.main { width: auto; min-width: 0; margin-bottom: 4px; }
-  .inline { gap: 4px; }
+
+  .row { 
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+
+  .row label.main { 
+    width: auto; 
+    min-width: 0; 
+    margin-bottom: 4px; 
+  }
+
+  .inline { 
+    gap: 4px; 
+  }
+
+  /* Keep specific rows with class inline in a horizontal layout */
+  .row.inline {
+    flex-direction: row;    
+    align-items: center;
+    flex-wrap: nowrap;
+  }
 }
 
