@@ -11,9 +11,10 @@ function calculateFund() {
   const growth = parseFloat(document.getElementById("fund-growth").value) / 100;
   const variance = parseFloat(document.getElementById("fund-variance").value) / 100;
   const withdrawal = parseFloat(document.getElementById("fund-withdrawal").value);
+
   const years = parseInt(document.getElementById("fund-years").value) || 0;
-  const extraMonths = parseInt(document.getElementById("fund-extra-months").value) || 0;
-  const months = years * 12 + extraMonths;
+  const months = parseInt(document.getElementById("fund-months").value) || 0;
+  const totalMonths = years * 12 + months;
 
   const scenarios = [
     { label: "Low", rate: growth - variance, color: "#d62828" },
@@ -30,7 +31,8 @@ function calculateFund() {
     const monthlyRate = Math.pow(1 + s.rate, 1/12) - 1;
     let depletedAt = null;
 
-    for (let m = 1; m <= months; m++) {
+    for (let m = 1; m <= totalMonths; m++) {
+      // compound growth monthly
       bal *= 1 + monthlyRate;
       bal -= withdrawal;
       data.push({ x: m, y: bal });
@@ -52,16 +54,12 @@ function calculateFund() {
     });
 
     if (depletedAt) {
-      const years = Math.floor(depletedAt / 12);
+      const yrs = Math.floor(depletedAt / 12);
       const remMonths = depletedAt % 12;
-      resultsHtml += `<div style="color:${s.color}; text-align:left;">
-        ${s.label} (${(s.rate*100).toFixed(1)}%): Funds depleted after ${years} years ${remMonths} months
-      </div>`;
+      resultsHtml += `<div style="color:${s.color};text-align:left">${s.label} (${(s.rate*100).toFixed(1)}%): Funds depleted after ${yrs} years ${remMonths} months</div>`;
     } else {
       const finalBal = data[data.length - 1].y.toFixed(2);
-      resultsHtml += `<div style="color:${s.color}; text-align:left;">
-        ${s.label} (${(s.rate*100).toFixed(1)}%): Funds remain after ${months} months (£${finalBal})
-      </div>`;
+      resultsHtml += `<div style="color:${s.color};text-align:left">${s.label} (${(s.rate*100).toFixed(1)}%): Funds remain after ${years} years ${months} months (£${finalBal})</div>`;
     }
   });
 
@@ -77,7 +75,7 @@ function calculateFund() {
     options: {
       responsive: true,
       interaction: {
-        mode: "index",
+        mode: "index",   // show all lines at once
         intersect: false
       },
       plugins: {
@@ -100,7 +98,8 @@ function calculateFund() {
           title: { display: true, text: "Balance (£)" },
           beginAtZero: true
         }
-      }
+      },
+      events: ["mousemove", "mouseout", "mouseenter", "mouseleave", "touchstart", "touchmove"]
     }
   });
 }

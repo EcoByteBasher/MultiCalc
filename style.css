@@ -115,6 +115,24 @@ html, body {
   min-width: 160px;
   font-weight: 600;
 }
+/* Custom timeframe row stays inline even on small screens */
+.row.timeframe {
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.num-3 {
+  width: 6ch;
+  text-align: right;
+}
+
+.num-2 {
+  width: 4ch;
+  text-align: right;
+}
+
 .inline {
   display: flex;
   align-items: center;
