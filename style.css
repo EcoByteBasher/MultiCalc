@@ -222,8 +222,8 @@ fieldset { border: 0; padding: 0; margin: 0; }
 /* Existing input sizes already present */
 .num-narrow { width: 5ch; text-align: right; } /* percentages */
 .num-wide   { width: 80px; text-align: right; }
-.num-small { width: 6ch; text-align: right; } /* years */
-.num-tiny  { width: 4ch; text-align: right; } /* months */
+.num-small { width: 4ch; text-align: right; } /* years */
+.num-tiny  { width: 3ch; text-align: right; } /* months */
 
 /* Remove number spinners */
 input[type=number]::-webkit-inner-spin-button,
