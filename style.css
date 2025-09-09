@@ -184,6 +184,7 @@ fieldset { border: 0; padding: 0; margin: 0; }
   padding: 10px 16px;
   border-radius: 10px;
   font-weight: 700;
+  font-size: 20px;
   cursor: pointer;
   transition: background .15s ease, transform .02s ease;
 }
@@ -259,7 +260,7 @@ input[type=number] {
   .inline {
     flex-wrap: wrap;
   }
-  .num-wide { width: 30%; }
+  .num-8 { width: 30%; }
 }
 
 @media (max-width: 480px) {
