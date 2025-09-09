@@ -7,27 +7,27 @@
 
       <div class="row inline">
         <label class="main" for="savings-startBalance">Starting balance</label>
-        <input class="num-wide" type="number" id="savings-startBalance" value="1000" />
+        <input class="num-8" type="number" id="savings-startBalance" value="1000" />
       </div>
 
       <div class="row inline">
         <label class="main" for="savings-monthlyPayment">Monthly payment</label>
-        <input class="num-narrow" type="number" id="savings-monthlyPayment" value="100" />
+        <input class="num-5" type="number" id="savings-monthlyPayment" value="100" />
       </div>
 
       <div class="row inline">
         <label class="main">Period</label>
         <div class="inline">
-          <input class="num-3" type="number" id="savings-years" value="1" />
+          <input class="num-6" type="number" id="savings-years" value="1" />
           <span class="suffix">Years</span>
-          <input class="num-2" type="number" id="savings-months" value="0" />
+          <input class="num-4" type="number" id="savings-months" value="0" />
           <span class="suffix">Months</span>
         </div>
       </div>
 
       <div class="row inline">
         <label class="main">Growth rate</label>
-        <input class="num-2" type="number" id="savings-growthRate" value="5" step="0.01" />%
+        <input class="num-4" type="number" id="savings-growthRate" value="5" step="0.01" />%
         <fieldset class="radio-group">
           <label class="radio"><input type="radio" name="savings-rateType" value="APR" checked />APR</label>
           <label class="radio"><input type="radio" name="savings-rateType" value="AER" />AER</label>
@@ -44,11 +44,11 @@
       <h2>Results</h2>
       <div class="row">
         <label class="main">Total saved</label>
-        <input class="num-wide" type="text" id="savings-totalSaved" readonly />
+        <input class="num-8" type="text" id="savings-totalSaved" readonly />
       </div>
       <div class="row">
         <label class="main">Total interest earned</label>
-        <input class="num-wide" type="text" id="savings-totalInterest" readonly />
+        <input class="num-8" type="text" id="savings-totalInterest" readonly />
       </div>
     </div>
 

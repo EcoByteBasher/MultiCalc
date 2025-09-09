@@ -7,20 +7,20 @@
 
       <div class="row inline">
         <label class="main" for="mortgage-amount">Amount borrowed</label>
-        <input class="num-wide" type="number" id="mortgage-amount" min="1" step="1" inputmode="numeric" value="100000"/>
+        <input class="num-8" type="number" id="mortgage-amount" min="1" step="1" inputmode="numeric" value="100000"/>
       </div>
 
       <div class="row inline">
         <label class="main" for="mortgage-rate">Interest rate (%)</label>
-        <input class="num-narrow" type="number" id="mortgage-rate" min="0" step="0.01" value="5.00" />
+        <input class="num-5" type="number" id="mortgage-rate" min="0" step="0.01" value="5.00" />
       </div>
 
       <div class="row inline">
         <label class="main">Term</label>
         <div class="inline">
-          <input class="num-3" type="number" id="mortgage-years" min="1" step="1" value="25" />
+          <input class="num-6" type="number" id="mortgage-years" min="1" step="1" value="25" />
           <span class="suffix">Years</span>
-          <input class="num-2" type="number" id="mortgage-months" min="0" max="11" step="1" value="0" />
+          <input class="num-4" type="number" id="mortgage-months" min="0" max="11" step="1" value="0" />
           <span class="suffix">Months</span>
         </div>
       </div>
@@ -47,7 +47,7 @@
 
       <div class="row">
         <label class="main" for="mortgage-payment">Monthly payment</label>
-        <input class="num-wide" type="text" id="mortgage-payment" readonly />
+        <input class="num-8" type="text" id="mortgage-payment" readonly />
       </div>
     </div>
 
@@ -56,20 +56,20 @@
 
       <div class="row">
         <label class="main" for="mortgage-oneOff">One-off</label>
-        <input class="num-wide" type="number" id="mortgage-oneOff" min="0" step="1" inputmode="numeric" />
+        <input class="num-8" type="number" id="mortgage-oneOff" min="0" step="1" inputmode="numeric" />
       </div>
 
       <div class="row">
         <label class="main" for="mortgage-monthlyOver">Monthly</label>
-        <input class="num-wide" type="number" id="mortgage-monthlyOver" min="0" step="1" inputmode="numeric" />
+        <input class="num-8" type="number" id="mortgage-monthlyOver" min="0" step="1" inputmode="numeric" />
       </div>
 
       <div class="row">
         <label class="main">New term</label>
         <div class="inline">
-          <input class="num-3" type="text" id="mortgage-newYears" readonly value="25" />
+          <input class="num-6" type="text" id="mortgage-newYears" readonly value="25" />
           <span class="suffix">Years</span>
-          <input class="num-2" type="text" id="mortgage-newMonths" readonly value="0" />
+          <input class="num-4" type="text" id="mortgage-newMonths" readonly value="0" />
           <span class="suffix">Months</span>
         </div>
       </div>
