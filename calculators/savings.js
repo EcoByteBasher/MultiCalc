@@ -28,10 +28,11 @@ function bindSavings(container) {
       interestAccrued += interest;
     }
 
-    byId('savings-totalSaved').value = fmt(balance);
-    byId('savings-totalInterest').value = fmt(interestAccrued);
-  }
-
+    // Update UI
+    byId('savings-totalSaved').textContent = fmt(balance);
+    byId('savings-totalInterest').textContent = fmt(interestAccrued); 
+ }
+ 
   byId('savings-calcBtn').addEventListener('click', calculateSavings);
   container.addEventListener('keydown', e => { if (e.key === 'Enter') calculateSavings(); });
 }

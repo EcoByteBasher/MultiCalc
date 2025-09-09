@@ -123,15 +123,13 @@ html, body {
   gap: 8px;
 }
 
-.num-3 {
-  width: 6ch;
-  text-align: right;
-}
-
-.num-2 {
-  width: 4ch;
-  text-align: right;
-}
+/* Narrow number inputs for certain fields */
+.num-8 { width: 8ch; text-align: right; } /* starting balances */
+.num-7 { width: 7ch; text-align: right; }
+.num-6 { width: 6ch; text-align: right; }
+.num-5 { width: 5ch; text-align: right; } /* percentages */
+.num-4 { width: 4ch; text-align: right; } /* years */
+.num-3 { width: 3ch; text-align: right; } /* months */
 
 .inline {
   display: flex;
@@ -218,15 +216,6 @@ fieldset { border: 0; padding: 0; margin: 0; }
   height: 280px;
   margin-top: 12px;
 }
-
-/* Narrow number inputs for certain fields */
-/* Existing input sizes already present */
-.num-8 { width: 8ch; text-align: right; } /* starting balances */
-.num-7 { width: 7ch; text-align: right; }
-.num-6 { width: 6ch; text-align: right; }
-.num-5 { width: 5ch; text-align: right; } /* percentages */
-.num-4 { width: 4ch; text-align: right; } /* years */
-.num-3 { width: 3ch; text-align: right; } /* months */
 
 /* Remove number spinners */
 input[type=number]::-webkit-inner-spin-button,
