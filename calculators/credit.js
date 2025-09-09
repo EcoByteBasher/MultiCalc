@@ -17,53 +17,101 @@ function calculateCredit() {
 
   if (isNaN(balance) || isNaN(apr) || isNaN(payment)) {
     showWarning("Please fill in all fields.");
+    setResultsActive(false);
     return;
   }
 
-  // monthly interest on opening balance
+  // APR = 0 → straight line repayment
+  if (monthlyRate === 0) {
+    const months = Math.ceil(balance / payment);
+    const years = Math.floor(months / 12);
+    const remMonths = months % 12;
+    const fullPayments = months - 1;
+    const finalPayment = balance - fullPayments * payment;
+    const totalPaid = fullPayments * payment + finalPayment;
+
+    byId('time').textContent = `${years} years ${remMonths} months`;
+    byId('interest').textContent = formatCurrency(0);
+    byId('total').textContent = formatCurrency(totalPaid);
+    byId('last').textContent = formatCurrency(finalPayment);
+
+    setResultsActive(true);
+    return;
+  }
+
+  // Case 1: Payment too low
   const monthlyInterest = balance * monthlyRate;
-
-  // Case 1: Payment never clears the debt
+  const minPayment = monthlyInterest + 1;
   if (payment <= monthlyInterest) {
-    showWarning("Monthly payment is too low to ever clear the debt.");
+    showWarning(
+      `Monthly payment is too low to ever clear the debt. Minimum required: ${formatCurrency(minPayment)}`
+    );
+    setResultsActive(false);
     return;
   }
 
-  // Case 2: Calculate repayment time (months) using logarithmic formula
+  // Case 2: Repayment > 50 years
   const t = Math.log(payment / (payment - balance * monthlyRate)) / Math.log(1 + monthlyRate);
-
-  // Case 2a: More than 50 years (600 months)
   if (t > 600) {
     showWarning("It would take more than 50 years to repay this debt.");
+    setResultsActive(false);
     return;
   }
 
-  // Case 3: Normal repayment path
+  // Case 3: Iterative repayment with final payment
   const months = Math.ceil(t);
   const years = Math.floor(months / 12);
   const remMonths = months % 12;
 
-  const totalPaid = payment * months;
-  const totalInterest = totalPaid - balance;
+  let remaining = balance;
+  let totalPaid = 0;
+  let totalInterest = 0;
+  let finalPayment = payment;
+
+  for (let m = 1; m <= months; m++) {
+    const interest = remaining * monthlyRate;
+    let principal = payment - interest;
+
+    if (remaining - principal < 0) {
+      principal = remaining;
+    }
+
+    const actualPayment = principal + interest;
+    remaining -= principal;
+    totalPaid += actualPayment;
+    totalInterest += interest;
+    finalPayment = actualPayment;
+
+    if (remaining <= 0) break;
+  }
+
+  // Round neatly
+  totalPaid = round2(totalPaid);
+  totalInterest = round2(totalInterest);
+  finalPayment = round2(finalPayment);
 
   byId('time').textContent = `${years} years ${remMonths} months`;
-  byId('interest').textContent = totalInterest.toLocaleString(undefined, { style: 'currency', currency: 'GBP' });
-  byId('total').textContent = totalPaid.toLocaleString(undefined, { style: 'currency', currency: 'GBP' });
+  byId('interest').textContent = formatCurrency(totalInterest);
+  byId('total').textContent = formatCurrency(totalPaid);
+  byId('last').textContent = formatCurrency(finalPayment);
 
   setResultsActive(true);
 }
 
 function showWarning(msg) {
-  const warn = document.getElementById('warning');
-  warn.textContent = msg;
-  warn.style.display = 'block';
-  setResultsActive(false);
+  const warn = document.getElementById("warning");
+  if (warn) {
+    warn.textContent = msg;
+    warn.style.display = "block";
+  }
 }
 
 function clearWarning() {
-  const warn = document.getElementById('warning');
-  warn.textContent = "";
-  warn.style.display = 'none';
+  const warn = document.getElementById("warning");
+  if (warn) {
+    warn.textContent = "";
+    warn.style.display = "none";
+  }
 }
 
 function setResultsActive(active) {
@@ -71,5 +119,13 @@ function setResultsActive(active) {
   results.forEach(r => {
     r.style.opacity = active ? '1' : '0.4';
   });
+}
+
+function formatCurrency(num) {
+  return num.toLocaleString(undefined, { style: 'currency', currency: 'GBP' });
+}
+
+function round2(num) {
+  return Math.round(num * 100) / 100;
 }
 
