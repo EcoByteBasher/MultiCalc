@@ -11,6 +11,17 @@ function calculateFund() {
   const growth = parseFloat(document.getElementById("fund-growth").value) / 100;
   const variance = parseFloat(document.getElementById("fund-variance").value) / 100;
   const withdrawal = parseFloat(document.getElementById("fund-withdrawal").value);
+  const inflation = parseFloat(document.getElementById("fund-inflation")?.value) / 100 || 0;
+
+  if (inflation <= -1) {
+    alert("Inflation must be greater than -100%");
+    return;
+  }
+
+  const inflationPct = (inflation * 100).toLocaleString(undefined, {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 2
+  });
 
   let years = parseInt(document.getElementById("fund-years").value) || 0;
   let months = parseInt(document.getElementById("fund-months").value) || 0;
@@ -30,8 +41,11 @@ function calculateFund() {
   const datasets = [];
   let resultsHtml = "";
 
+  resultsHtml += `<div style="color:black; text-align:left; font-style: italic">With annual inflation of ${inflationPct}%</div>`;
+
   scenarios.forEach(s => {
     let bal = balance;
+    let withdraw = withdrawal;
     const data = [];
     const monthlyRate = Math.pow(1 + s.rate, 1 / 12) - 1;
     let depletedAt = null;
@@ -39,12 +53,17 @@ function calculateFund() {
     for (let m = 1; m <= totalMonths; m++) {
       // compound growth monthly
       bal *= 1 + monthlyRate;
-      bal -= withdrawal;
+      bal -= withdraw;
       data.push({ x: m, y: bal });
 
       if (bal <= 0 && !depletedAt) {
         depletedAt = m;
         break;
+      }
+
+      // apply inflation to withdrawals each year
+      if (inflation !== 0 && m % 12 === 0) {
+        withdraw *= (1 + inflation);
       }
     }
 
@@ -61,10 +80,16 @@ function calculateFund() {
     if (depletedAt) {
       const yrs = Math.floor(depletedAt / 12);
       const remMonths = depletedAt % 12;
+
       resultsHtml += `<div style="color:${s.color};text-align:left">${s.label} (${(s.rate*100).toFixed(1)}%): Funds depleted after ${yrs} years ${remMonths} months</div>`;
     } else {
-      const finalBal = data[data.length - 1].y.toFixed(2);
-      resultsHtml += `<div style="color:${s.color};text-align:left">${s.label} (${(s.rate*100).toFixed(1)}%): Funds remain after ${years} years ${months} months (£${finalBal})</div>`;
+      const finalBal = data[data.length - 1].y.toLocaleString(undefined, {
+        style: "currency",
+        currency: "GBP",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      resultsHtml += `<div style="color:${s.color};text-align:left">${s.label} (${(s.rate*100).toFixed(1)}%): Funds remain after ${years} years ${months} months (${finalBal})</div>`;
     }
   });
 

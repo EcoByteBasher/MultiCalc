@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="card" role="application" aria-label="Funds Depletion Calculator">
-    <div class="header"><h1>Funds Depletion Calculator</h1></div>
+    <div class="header"><h1>Fund Depletion Calculator</h1></div>
     <div class="body">
 
       <!-- Inputs -->
@@ -23,6 +23,12 @@
         <div class="row inline">
           <label class="main" for="fund-withdrawal">Monthly withdrawal</label>
           <input class="num-5" type="number" id="fund-withdrawal" min="0" step="1" value="1000" />
+        </div>
+
+        <div class="row inline">
+          <label class="main" for="fund-inflation">Inflation (%)</label>
+          <input class="num-5" type="number" id="fund-inflation" step="0.1" value="0" />
+          <span class="suffix">per year</span>
         </div>
 
         <div class="row inline">
@@ -47,6 +53,7 @@
         <div class="row">
           <button class="btn" id="calcBtn">Calculate</button>
         </div>
+      <div class="help">Note: Monthly payments increase annually with inflation.</div>
       </div>
 
       <!-- Results -->
