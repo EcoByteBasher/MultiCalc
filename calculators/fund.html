@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Funds Depletion Calculator</title>
+  <title>Fund Depletion Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -17,7 +17,12 @@
 
         <div class="row inline">
           <label class="main" for="fund-balance">Starting balance</label>
-          <input class="num-8" type="number" id="fund-balance" min="0" step="1" value="100000" />
+          <input class="num-8" type="number" id="fund-balance" min="0" step="1" value="200000" />
+        </div>
+
+        <div class="row inline">
+          <label class="main" for="fund-withdrawal">Monthly withdrawal</label>
+          <input class="num-5" type="number" id="fund-withdrawal" min="0" step="1" value="1000" />
         </div>
 
         <div class="row inline">
@@ -32,13 +37,8 @@
         </div>
 
         <div class="row inline">
-          <label class="main" for="fund-withdrawal">Monthly withdrawal</label>
-          <input class="num-5" type="number" id="fund-withdrawal" min="0" step="1" value="1000" />
-        </div>
-
-        <div class="row inline">
-          <label class="main">Custom timeframe</label>
-          <input class="num-4" type="number" id="fund-years" min="0" step="1" value="30" />
+          <label class="main">Timeframe</label>
+          <input class="num-4" type="number" id="fund-years" min="0" step="1" value="40" />
           <span class="suffix">years</span>
           <input class="num-3" type="number" id="fund-months" min="0" max="11" step="1" value="0" />
           <span class="suffix">months</span>

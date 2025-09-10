@@ -19,16 +19,16 @@ function bindSavings(container) {
     }
 
     let balance = start;
+    let totalContrib = start + (n*monthly);
     let interestAccrued = 0;
 
     for (let i = 0; i < n; i++) {
-      balance += monthly;
-      const interest = balance * monthlyRate;
-      balance += interest;
-      interestAccrued += interest;
+      balance = balance*(1+monthlyRate) + monthly;
     }
+    interestAccrued = balance - totalContrib;
 
     // Update UI
+    byId('savings-totalContrib').textContent = fmt(totalContrib);
     byId('savings-totalSaved').textContent = fmt(balance);
     byId('savings-totalInterest').textContent = fmt(interestAccrued); 
  }
