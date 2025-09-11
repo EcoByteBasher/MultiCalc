@@ -48,12 +48,36 @@ html, body {
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: background .15s ease, transform .02s ease;
+  transition: background 0.15s ease, transform 0.1s ease;
   font-size: 1rem;
 }
 
-#button-container button:hover { background: var(--accent-dark); }
-#button-container button:active { transform: translateY(1px); }
+/* Hover for normal buttons */
+#button-container button:hover {
+  background: var(--accent-dark);
+}
+
+/* Click/active pseudo-class for normal buttons */
+#button-container button:active {
+  transform: translateY(1px);
+}
+
+/* Active class for selected button */
+#button-container button.active {
+  background-color: #0a58ca; /* darker blue */
+  color: #fff;
+  transform: scale(1.02);
+}
+
+/* Keep active buttons consistent on hover */
+#button-container button.active:hover {
+  background-color: #0a58ca;
+}
+
+/* Optional: subtle click effect for active buttons */
+#button-container button.active:active {
+  transform: scale(1.01);
+}
 
 #instructions {
   font-size: 0.95rem;

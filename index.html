@@ -5,8 +5,7 @@
   <title>MultiCalc</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Icon stuff -->
-  <!-- Android/Chrome PWA -->
+  <!-- PWA manifest -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0d6efd">
 
@@ -18,18 +17,18 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <!-- App version -->
   <div id="app-version" class="app-version"></div>
 
   <!-- Top navigation -->
   <div id="top-row">
     <div id="button-container">
-      <button onclick="loadCalculator('mortgage')">Mortgage</button>
-      <button onclick="loadCalculator('savings')">Savings</button>
-      <button onclick="loadCalculator('target')">Target fund</button>
-      <button onclick="loadCalculator('investment')">Investment</button>
-      <button onclick="loadCalculator('fund')">Fund depletion</button>
-      <button onclick="loadCalculator('credit')">Credit card</button>
-      <!-- Add more calculators here -->
+      <button data-calc="mortgage">Mortgage</button>
+      <button data-calc="savings">Savings</button>
+      <button data-calc="target">Target fund</button>
+      <button data-calc="investment">Investment</button>
+      <button data-calc="fund">Fund depletion</button>
+      <button data-calc="credit">Credit card</button>
     </div>
     <div id="instructions">Select a calculator from the menu above</div>
   </div>
@@ -44,34 +43,54 @@
   <script src="calculators/investment.js"></script>
   <script src="calculators/fund.js"></script>
   <script src="calculators/credit.js"></script>
+
   <script>
+    let appVersion = 'dev';
+
+    // Load version from manifest
+    fetch('manifest.json')
+      .then(res => res.json())
+      .then(manifest => {
+        appVersion = manifest.version || 'dev';
+        document.getElementById('app-version').textContent = `MultiCalc v${appVersion}`;
+      })
+      .catch(() => {
+        document.getElementById('app-version').textContent = `MultiCalc (${appVersion})`;
+      });
+
+    // Function to load a calculator
     async function loadCalculator(name) {
-      const res = await fetch(`calculators/${name}.html`);
+      const url = `calculators/${name}.html?v=${appVersion}`;
+      const res = await fetch(url);
       const html = await res.text();
       const container = document.getElementById('content');
       container.innerHTML = html;
 
       const card = container.querySelector('.card'); // scope root
-      if (name === 'mortgage') bindMortgage(card);
-      if (name === 'savings') bindSavings(card);
-      if (name === 'target') bindTarget(card);
-      if (name === 'investment') bindInvestment(card);
-      if (name === 'fund') bindFund(card);
-      if (name === 'credit') bindCredit();
+      switch(name) {
+        case 'mortgage': bindMortgage(card); break;
+        case 'savings': bindSavings(card); break;
+        case 'target': bindTarget(card); break;
+        case 'investment': bindInvestment(card); break;
+        case 'fund': bindFund(card); break;
+        case 'credit': bindCredit(); break;
+      }
+      // Highlight active button
+      document.querySelectorAll('#button-container button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.calc === name);
+      });
     }
+
+    // Attach click events to buttons using data-calc
+    document.querySelectorAll('#button-container button[data-calc]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const calcName = btn.dataset.calc;
+        if(calcName) loadCalculator(calcName);
+      });
+    });
 
     // Load default calculator
     loadCalculator('mortgage');
-  fetch('manifest.json')
-    .then(response => response.json())
-    .then(manifest => {
-      const version = manifest.version || 'dev';
-      document.getElementById('app-version').textContent = `MultiCalc v${version}`;
-    })
-    .catch(() => {
-      document.getElementById('app-version').textContent = 'MultiCalc (dev)';
-    });
-
   </script>
 </body>
 </html>
