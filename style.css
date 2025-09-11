@@ -143,6 +143,14 @@ html, body {
   margin-right: 10px;
 }
 
+.app-version {
+  font-size: 0.9em;
+  /*font-style: italic;*/
+  margin-bottom: 10px;
+  text-align: center;
+  color: orange; /*#555; */
+}
+
 /* Inputs */
 input[type="number"], input[type="text"] {
   padding: 8px 10px;
