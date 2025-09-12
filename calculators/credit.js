@@ -117,7 +117,7 @@ function clearWarning() {
 function setResultsActive(active) {
   const results = document.querySelectorAll('#results .val');
   results.forEach(r => {
-    r.style.opacity = active ? '1' : '0.4';
+    if(!active) r.textContent = "—";
   });
 }
 
